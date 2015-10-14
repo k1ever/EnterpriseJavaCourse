@@ -24,7 +24,12 @@ public class JDBCConsoleApp {
         String password = properties.getProperty("user.password");
 
         Connection connection = DriverManager.getConnection(url, userName, password);
-        System.out.println(connection.getCatalog());
+
+        JDBCOperations operations = new JDBCOperations();
+
+        operations.showTables(connection);
+
+
     }
 
     public void loadProperties(Properties properties) throws IOException {
