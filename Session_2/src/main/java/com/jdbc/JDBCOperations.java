@@ -26,6 +26,11 @@ public class JDBCOperations {
         PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
         preparedStatement.setString(1, tableName);
         preparedStatement.execute(sqlStr);
+        ResultSet resultSet = preparedStatement.getResultSet();
+        //todo using ResultSetMetaData implement method to print row values for table with unknown column types
+        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+        resultSetMetaData.getColumnTypeName(1);
+        resultSetMetaData.getColumnType(1);
 
 
     }
