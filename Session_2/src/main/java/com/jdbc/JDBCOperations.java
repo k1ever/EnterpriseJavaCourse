@@ -3,6 +3,8 @@ package com.jdbc;
 
 import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -77,8 +79,56 @@ public class JDBCOperations {
     }
 
     public void getPartialDataFromTable (Connection connection) throws SQLException {
-        //todo
-        System.out.println("Not implemented yet! :(");
+        System.out.print("Enter table name: ");
+        Scanner input = new Scanner(System.in);
+        String tableName = input.nextLine();
+        System.out.print("Enter rows per page count: ");
+        int rowsPerPage = input.nextInt();
+        input.nextLine(); //to avoid empty string on next nextLine call, Scanner class bug
+
+        String sqlStr = "SELECT * FROM " + tableName;
+        CachedRowSet rowSet = RowSetProvider.newFactory().createCachedRowSet();
+        rowSet.setPageSize(rowsPerPage);
+        rowSet.setCommand(sqlStr);
+        rowSet.execute(connection);
+        ResultSetMetaData resultSetMetaData = rowSet.getMetaData();
+
+        //display columns names and types (head of table)
+        String tableHead = "";
+        int columnCount = resultSetMetaData.getColumnCount();
+        for (int i=1; i<=columnCount; i++){
+            tableHead += resultSetMetaData.getColumnName(i) + "(" + resultSetMetaData.getColumnTypeName(i) + ") ";
+        }
+        System.out.println();
+
+        int pageCommand = -1;
+
+        while (pageCommand !=0){
+            System.out.println(tableHead);
+            while (rowSet.next()) {
+                for (int i = 1; i <= columnCount; i++) {
+                    System.out.print(rowSet.getString(i) + " ");  //every data type will be casted to String for output
+                }
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println("1: Next page, 2: Previous page, 0: Main menu");
+
+            pageCommand = input.nextInt();
+
+            switch (pageCommand){
+                case 1:
+                    rowSet.nextPage();
+                    break;
+                case 2:
+                    rowSet.previousPage();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Invalid input!");
+            }
+        }
     }
 
 
@@ -96,9 +146,9 @@ public class JDBCOperations {
 
         resultSet.moveToInsertRow();
 
-        int coulumnsCount = tableMetaData.getColumnCount();
+        int coulumnCount = tableMetaData.getColumnCount();
 
-        for (int i=1; i<=coulumnsCount; i++){
+        for (int i=1; i<=coulumnCount; i++){
             System.out.print(tableMetaData.getColumnName(i) + "(" + tableMetaData.getColumnTypeName(i) + "): ");
             String value = input.nextLine();
             resultSet.updateObject(i, value);
@@ -124,9 +174,9 @@ public class JDBCOperations {
 
         resultSet.absolute(rowNumber);
 
-        int coulumnsCount = tableMetaData.getColumnCount();
+        int coulumnCount = tableMetaData.getColumnCount();
 
-        for (int i=1; i<=coulumnsCount; i++){
+        for (int i=1; i<=coulumnCount; i++){
             System.out.print(tableMetaData.getColumnName(i) + "(" + tableMetaData.getColumnTypeName(i) + "): ");
             String value = input.nextLine();
             resultSet.updateObject(i, value);
