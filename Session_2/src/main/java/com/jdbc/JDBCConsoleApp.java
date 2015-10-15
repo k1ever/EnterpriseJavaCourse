@@ -27,9 +27,7 @@ public class JDBCConsoleApp {
 
         JDBCOperations operations = new JDBCOperations();
 
-        operations.showTables(connection);
-
-        operations.getDataFromTable(connection, "students");
+//        operations.showTables(connection);
 
 //        String[] columnsNamesAndTypes = new String[4];
 //        columnsNamesAndTypes[0] = "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT";
@@ -39,7 +37,13 @@ public class JDBCConsoleApp {
 //        operations.createTable(connection, "grades", 4, columnsNamesAndTypes);
 //        operations.getDataFromTable(connection, "grades");
 
+        operations.getDataFromTable(connection, "students");
+
+//        operations.editRecord(connection, "students", 3);
+//        operations.getDataFromTable(connection, "students");
+
         operations.insertRecord(connection, "students");
+        operations.getDataFromTable(connection, "students");
 
 //        operations.deleteRecord(connection, "students", 4);3
 //        operations.getDataFromTable(connection, "students");

@@ -38,10 +38,9 @@ public class JDBCOperations {
 
     public void getDataFromTable (Connection connection, String tableName) throws SQLException {
         String sqlStr = "SELECT * FROM " + tableName;
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
-        preparedStatement.execute(sqlStr);
-        ResultSet resultSet = preparedStatement.getResultSet();
-
+        Statement statement = connection.createStatement();
+        statement.execute(sqlStr);
+        ResultSet resultSet = statement.getResultSet();
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
         //display columns names and types
@@ -68,51 +67,56 @@ public class JDBCOperations {
 
     public void insertRecord(Connection connection, String tableName) throws SQLException {
         //this piece is just to retrieve table's metadata
-        Statement statement = connection.createStatement();
-        statement.execute("SELECT * FROM " + tableName + " WHERE 1=0");
+        String sqlStr = "SELECT * FROM " + tableName + " WHERE 1=0";
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statement.execute(sqlStr);
         ResultSet resultSet = statement.getResultSet();
         ResultSetMetaData tableMetaData = resultSet.getMetaData();
 
-
-        StringBuilder sqlInsertStr = new StringBuilder();
-        sqlInsertStr.append("INSERT INTO ");
-        sqlInsertStr.append(tableName + "(");
+        resultSet.moveToInsertRow();
 
         int coulumnsCount = tableMetaData.getColumnCount();
-        for (int i=1; i<=coulumnsCount; i++){
-            sqlInsertStr.append(tableMetaData.getColumnName(i));
-            if (i!=coulumnsCount){
-                sqlInsertStr.append(", ");
-            }
-        }
-        sqlInsertStr.append(") VALUES(");
-
         Scanner input = new Scanner(System.in);
         for (int i=1; i<=coulumnsCount; i++){
-            System.out.print(tableMetaData.getColumnName(i) + "(" + tableMetaData.getColumnTypeName(i) + "):");
+            System.out.print(tableMetaData.getColumnName(i) + "(" + tableMetaData.getColumnTypeName(i) + "): ");
             String value = input.nextLine();
-            sqlInsertStr.append("\'" + value + "\'");
-            if (i != coulumnsCount){
-                sqlInsertStr.append(", ");
-            }
+            resultSet.updateObject(i, value);
         }
-        sqlInsertStr.append(")");
-
-        Statement insertStatement = connection.createStatement();
-        insertStatement.execute(sqlInsertStr.toString());
+        resultSet.insertRow();
+        connection.commit();
     }
 
-    public void editRecord(Connection connection, String tableName, int rowNumber){
-        //todo
+    public void editRecord(Connection connection, String tableName, int rowNumber) throws SQLException {
+        String sqlStr = "SELECT * FROM " + tableName + " WHERE 1=0";
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statement.execute(sqlStr);
+        ResultSet resultSet = statement.getResultSet();
+
+        ResultSetMetaData tableMetaData = resultSet.getMetaData();
+
+        resultSet.absolute(rowNumber);
+
+        int coulumnsCount = tableMetaData.getColumnCount();
+        Scanner input = new Scanner(System.in);
+        for (int i=1; i<=coulumnsCount; i++){
+            System.out.print(tableMetaData.getColumnName(i) + "(" + tableMetaData.getColumnTypeName(i) + "): ");
+            String value = input.nextLine();
+            resultSet.updateObject(i, value);
+        }
+
+        resultSet.updateRow();
+        connection.commit();
+
     }
 
     public void deleteRecord(Connection connection, String tableName, int rowNumber) throws SQLException {
         String sqlStr = "SELECT * FROM " + tableName;
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlStr,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        preparedStatement.execute(sqlStr);
-        ResultSet resultSet = preparedStatement.getResultSet();
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statement.execute(sqlStr);
+        ResultSet resultSet = statement.getResultSet();
         resultSet.absolute(rowNumber);
         resultSet.deleteRow();
+        connection.commit();
     }
 
 }
