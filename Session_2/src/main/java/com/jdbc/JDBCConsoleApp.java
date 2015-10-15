@@ -31,8 +31,17 @@ public class JDBCConsoleApp {
 
         operations.getDataFromTable(connection, "students");
 
-        operations.deleteRecord(connection, "students", 4);
-        operations.getDataFromTable(connection, "students");
+        String[] columnsNamesAndTypes = new String[4];
+        columnsNamesAndTypes[0] = "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT";
+        columnsNamesAndTypes[1] = "student_id INT NOT NULL";
+        columnsNamesAndTypes[2] = "subject_id INT NOT NULL";
+        columnsNamesAndTypes[3] = "grade INT NOT NULL";
+        operations.createTable(connection, "grades", 4, columnsNamesAndTypes);
+        operations.getDataFromTable(connection, "grades");
+
+
+//        operations.deleteRecord(connection, "students", 4);
+//        operations.getDataFromTable(connection, "students");
 
 
     }

@@ -18,8 +18,21 @@ public class JDBCOperations {
         System.out.println();
     }
 
-    public void createTable(Connection connection, String tableName, int columnsCount){
-        //todo
+    public void createTable(Connection connection, String tableName, int columnsCount, String[] columnsNamesAndTypes) throws SQLException {
+        StringBuilder sqlStr = new StringBuilder();
+        sqlStr.append("CREATE TABLE ");
+        sqlStr.append(tableName + "(");
+        for (int i=1; i<=columnsCount; i++){
+            sqlStr.append(columnsNamesAndTypes[i-1]);
+            if (i != columnsCount){   //we don't need comma after last parameter
+                sqlStr.append(", ");
+            }
+        }
+        sqlStr.append(")");
+
+        Statement statement = connection.createStatement();
+        statement.execute(sqlStr.toString());
+
     }
 
     public void getDataFromTable (Connection connection, String tableName) throws SQLException {
@@ -44,10 +57,19 @@ public class JDBCOperations {
             }
             System.out.println();
         }
-
+        System.out.println();
     }
 
+    public void getPartialDataFromTable (Connection connection, String tableName) throws SQLException {
+        //todo
+    }
+
+
     public void insertRecord(Connection connection, String tableName){
+        //todo
+    }
+
+    public void editRecord(Connection connection, String tableName, int rowNumber){
         //todo
     }
 
