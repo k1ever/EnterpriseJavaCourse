@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * Created by Klever on 14.10.15.
@@ -27,28 +28,43 @@ public class JDBCConsoleApp {
 
         JDBCOperations operations = new JDBCOperations();
 
-//        operations.showTables(connection);
+        showCommands();
 
-//        String[] columnsNamesAndTypes = new String[4];
-//        columnsNamesAndTypes[0] = "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT";
-//        columnsNamesAndTypes[1] = "student_id INT NOT NULL";
-//        columnsNamesAndTypes[2] = "subject_id INT NOT NULL";
-//        columnsNamesAndTypes[3] = "grade INT NOT NULL";
-//        operations.createTable(connection, "grades", 4, columnsNamesAndTypes);
-//        operations.getDataFromTable(connection, "grades");
+        Scanner scanner = new Scanner(System.in);
+        int operation = -1;
 
-        operations.getDataFromTable(connection, "students");
+        while (operation != 0){
 
-//        operations.editRecord(connection, "students", 3);
-//        operations.getDataFromTable(connection, "students");
+            System.out.print("Input> ");
+            operation = scanner.nextInt();
 
-        operations.insertRecord(connection, "students");
-        operations.getDataFromTable(connection, "students");
-
-//        operations.deleteRecord(connection, "students", 4);3
-//        operations.getDataFromTable(connection, "students");
-
-
+            switch (operation){
+                case 1:
+                    operations.showTables(connection);
+                    break;
+                case 2:
+                    //operations.createTable();
+                    break;
+                case 3:
+                    operations.getDataFromTable(connection);
+                    break;
+                case 4:
+                    operations.getPartialDataFromTable(connection, "students");
+                    break;
+                case 5:
+                    operations.editRecord(connection, "students", 3);
+                    break;
+                case 6:
+                    operations.insertRecord(connection, "students");
+                    break;
+                case 7:
+                    operations.deleteRecord(connection, "students", 5);
+                    break;
+                case 9:
+                    showCommands();
+                    break;
+            }
+        }
     }
 
     public void loadProperties(Properties properties) throws IOException {
@@ -56,5 +72,16 @@ public class JDBCConsoleApp {
         properties.load(in);
     }
 
-
+    public static void showCommands(){
+        System.out.println("Please choose command to execute:");
+        System.out.println("    1: Show tables");
+        System.out.println("    2: Create new table");
+        System.out.println("    3: Get data from table");
+        System.out.println("    4: Get partial data from table");
+        System.out.println("    5: Edit table's record");
+        System.out.println("    6: Insert record into table");
+        System.out.println("    7: Delete record from table");
+        System.out.println("    0: Exit");
+        System.out.println();
+    }
 }

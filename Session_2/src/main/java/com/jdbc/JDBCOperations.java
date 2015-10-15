@@ -1,6 +1,8 @@
 package com.jdbc;
 
 
+import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
+
 import java.sql.*;
 import java.util.Scanner;
 
@@ -36,7 +38,11 @@ public class JDBCOperations {
 
     }
 
-    public void getDataFromTable (Connection connection, String tableName) throws SQLException {
+    public void getDataFromTable (Connection connection) throws SQLException {
+        System.out.print("Enter table name: ");
+        Scanner input = new Scanner(System.in);
+        String tableName = input.nextLine();
+
         String sqlStr = "SELECT * FROM " + tableName;
         Statement statement = connection.createStatement();
         statement.execute(sqlStr);
@@ -62,6 +68,7 @@ public class JDBCOperations {
 
     public void getPartialDataFromTable (Connection connection, String tableName) throws SQLException {
         //todo
+        System.out.println("Not implemented yet! :(");
     }
 
 
