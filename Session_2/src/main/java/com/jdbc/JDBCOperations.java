@@ -17,21 +17,32 @@ public class JDBCOperations {
         }
     }
 
-    public void createTable(Connection connection, String tableName){
+    public void createTable(Connection connection, String tableName, int columnsCount){
         //todo
     }
 
     public void getDataFromTable (Connection connection, String tableName) throws SQLException {
-        String sqlStr = "SELECT * FROM ?";
+        String sqlStr = "SELECT * FROM " + tableName;
         PreparedStatement preparedStatement = connection.prepareStatement(sqlStr);
-        preparedStatement.setString(1, tableName);
         preparedStatement.execute(sqlStr);
         ResultSet resultSet = preparedStatement.getResultSet();
-        //todo using ResultSetMetaData implement method to print row values for table with unknown column types
-        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-        resultSetMetaData.getColumnTypeName(1);
-        resultSetMetaData.getColumnType(1);
 
+        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+
+        //display columns names and types
+        int columnsCount = resultSetMetaData.getColumnCount();
+        for (int i=1; i<=columnsCount; i++){
+            System.out.print(resultSetMetaData.getColumnLabel(i) + "(" + resultSetMetaData.getColumnTypeName(i) + ") ");
+        }
+        System.out.println();
+
+        //display table data
+        while (resultSet.next()){
+            for (int i=1; i<=columnsCount; i++){
+                System.out.print(resultSet.getString(i) + " ");  //every data type will be casted to String for output
+            }
+            System.out.println();
+        }
 
     }
 

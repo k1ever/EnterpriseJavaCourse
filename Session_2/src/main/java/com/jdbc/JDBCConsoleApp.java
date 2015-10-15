@@ -29,6 +29,8 @@ public class JDBCConsoleApp {
 
         operations.showTables(connection);
 
+        operations.getDataFromTable(connection, "students");
+
 
     }
 
