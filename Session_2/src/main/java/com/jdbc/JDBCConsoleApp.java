@@ -31,6 +31,9 @@ public class JDBCConsoleApp {
 
         operations.getDataFromTable(connection, "students");
 
+        operations.deleteRecord(connection, "students", 4);
+        operations.getDataFromTable(connection, "students");
+
 
     }
 

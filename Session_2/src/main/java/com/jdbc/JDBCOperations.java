@@ -15,6 +15,7 @@ public class JDBCOperations {
         while (resultSet.next()){
             System.out.println(resultSet.getString(1));
         }
+        System.out.println();
     }
 
     public void createTable(Connection connection, String tableName, int columnsCount){
@@ -44,6 +45,19 @@ public class JDBCOperations {
             System.out.println();
         }
 
+    }
+
+    public void insertRecord(Connection connection, String tableName){
+        //todo
+    }
+
+    public void deleteRecord(Connection connection, String tableName, int rowNumber) throws SQLException {
+        String sqlStr = "SELECT * FROM " + tableName;
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlStr,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        preparedStatement.execute(sqlStr);
+        ResultSet resultSet = preparedStatement.getResultSet();
+        resultSet.absolute(rowNumber);
+        resultSet.deleteRow();
     }
 
 }
