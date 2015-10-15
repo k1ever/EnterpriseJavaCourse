@@ -2,6 +2,7 @@ package com.jdbc;
 
 
 import java.sql.*;
+import java.util.Scanner;
 
 /**
  * Created by Klever on 14.10.15.
@@ -46,7 +47,7 @@ public class JDBCOperations {
         //display columns names and types
         int columnsCount = resultSetMetaData.getColumnCount();
         for (int i=1; i<=columnsCount; i++){
-            System.out.print(resultSetMetaData.getColumnLabel(i) + "(" + resultSetMetaData.getColumnTypeName(i) + ") ");
+            System.out.print(resultSetMetaData.getColumnName(i) + "(" + resultSetMetaData.getColumnTypeName(i) + ") ");
         }
         System.out.println();
 
@@ -65,8 +66,40 @@ public class JDBCOperations {
     }
 
 
-    public void insertRecord(Connection connection, String tableName){
-        //todo
+    public void insertRecord(Connection connection, String tableName) throws SQLException {
+        //this piece is just to retrieve table's metadata
+        Statement statement = connection.createStatement();
+        statement.execute("SELECT * FROM " + tableName + " WHERE 1=0");
+        ResultSet resultSet = statement.getResultSet();
+        ResultSetMetaData tableMetaData = resultSet.getMetaData();
+
+
+        StringBuilder sqlInsertStr = new StringBuilder();
+        sqlInsertStr.append("INSERT INTO ");
+        sqlInsertStr.append(tableName + "(");
+
+        int coulumnsCount = tableMetaData.getColumnCount();
+        for (int i=1; i<=coulumnsCount; i++){
+            sqlInsertStr.append(tableMetaData.getColumnName(i));
+            if (i!=coulumnsCount){
+                sqlInsertStr.append(", ");
+            }
+        }
+        sqlInsertStr.append(") VALUES(");
+
+        Scanner input = new Scanner(System.in);
+        for (int i=1; i<=coulumnsCount; i++){
+            System.out.print(tableMetaData.getColumnName(i) + "(" + tableMetaData.getColumnTypeName(i) + "):");
+            String value = input.nextLine();
+            sqlInsertStr.append("\'" + value + "\'");
+            if (i != coulumnsCount){
+                sqlInsertStr.append(", ");
+            }
+        }
+        sqlInsertStr.append(")");
+
+        Statement insertStatement = connection.createStatement();
+        insertStatement.execute(sqlInsertStr.toString());
     }
 
     public void editRecord(Connection connection, String tableName, int rowNumber){
