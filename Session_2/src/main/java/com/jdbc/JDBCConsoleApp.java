@@ -25,6 +25,7 @@ public class JDBCConsoleApp {
         String password = properties.getProperty("user.password");
 
         Connection connection = DriverManager.getConnection(url, userName, password);
+        connection.setAutoCommit(true);
 
         JDBCOperations operations = new JDBCOperations();
 
@@ -43,25 +44,31 @@ public class JDBCConsoleApp {
                     operations.showTables(connection);
                     break;
                 case 2:
-                    //operations.createTable();
+                    operations.createTable(connection);
                     break;
                 case 3:
                     operations.getDataFromTable(connection);
                     break;
                 case 4:
-                    operations.getPartialDataFromTable(connection, "students");
+                    operations.getPartialDataFromTable(connection);
                     break;
                 case 5:
-                    operations.editRecord(connection, "students", 3);
+                    operations.editRecord(connection);
                     break;
                 case 6:
-                    operations.insertRecord(connection, "students");
+                    operations.insertRecord(connection);
                     break;
                 case 7:
-                    operations.deleteRecord(connection, "students", 5);
+                    operations.deleteRecord(connection);
                     break;
                 case 9:
                     showCommands();
+                    break;
+                case 0:
+                    System.out.println("bye!");
+                    break;
+                default:
+                    System.out.println("Wrong input!");
                     break;
             }
         }
@@ -81,6 +88,7 @@ public class JDBCConsoleApp {
         System.out.println("    5: Edit table's record");
         System.out.println("    6: Insert record into table");
         System.out.println("    7: Delete record from table");
+        System.out.println("    9: Show commands");
         System.out.println("    0: Exit");
         System.out.println();
     }
