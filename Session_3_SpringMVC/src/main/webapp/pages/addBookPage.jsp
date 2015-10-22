@@ -3,9 +3,9 @@
 <html>
 <body>
 
-<form action="addbookaction">
+<form action="addbookaction" method="post">
     <fieldset>
-    <legend>Book information:</legend>
+        <legend>Book information:</legend>
         Title:<br>
         <input type="text" name="bookTitle">
         <br>
@@ -16,8 +16,8 @@
         <br>
 
         <input type="submit" value="Add Book">
-        <input type="button" onclick="location.href='http://localhost:8080/library/allbooks';" value="Cancel" />
-  </fieldset>
+        <input type="button" onclick="location.href='/library/books/allbooks';" value="Cancel" />
+    </fieldset>
 </form>
 
 
