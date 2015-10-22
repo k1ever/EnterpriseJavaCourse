@@ -41,15 +41,25 @@
         <tr>
             <td>${book.title}</td>
             <td>${book.author}</td>
-            <td>${book.holder}"></td>
+            <td>${book.holder}</td>
             <c:choose>
                 <c:when test="${book.taken}">
                     <td align="center">(taken)</td>
-                    <td><a href="/library/books/returnbook/${book.id}">return</a></td>
+                    <td align="center">
+                        <form action="returnbook" method="post">
+                        <input type="hidden" name="bookId" value="${book.id}">
+                        <input type="submit" value="Return">
+                        </form>
+                    </td>
                 </c:when>
                 <c:otherwise>
                     <td></td>
-                    <td><a href="/library/books/setholdernameform/${book.id}">take</a></td>
+                    <td align="center">
+                        <form action="setholdernameform" method="post">
+                        <input type="hidden" name="bookId" value="${book.id}">
+                        <input type="submit" value="Take">
+                        </form>
+                    </td>
                 </c:otherwise>
             </c:choose>
         </tr>

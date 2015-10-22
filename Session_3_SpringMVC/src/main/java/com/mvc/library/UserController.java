@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +24,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/addbookform")
-    public String goToAddBook(Model model){
+    public String goToAddBook(){
         return "addBookPage";
     }
 
@@ -35,29 +34,24 @@ public class UserController {
         return "redirect:/books/allbooks";
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/takebook/{id}")
-//    public String takeBook(@PathVariable("id") int id){
-//        bookRepository.takeBook(id);
-//        return "redirect:/books/allbooks";
-//    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/returnbook/{id}")
-    public String returnBook(@PathVariable("id") int id){
-        bookRepository.returnBook(id);
-        return "redirect:/books/allbooks";
+    @RequestMapping(method = RequestMethod.POST, value = "/setholdernameform")
+    public String goToAddHolderName(Model model, @RequestParam("bookId") int bookId){
+        model.addAttribute("bookId", bookId);
+        return "setHolderName";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/setholdernameform/{id}")
-    public String goToAddHolderName(Model model, @PathVariable("id") int id){
-        model.addAttribute("bookId", id);
-        return "redirect:/books/setholdername";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/setholdername")
+    @RequestMapping(method = RequestMethod.POST, value = "/setholdernameaction")
     public String setHolderNameAndTakeBook(@RequestParam("bookId") int bookId, @RequestParam("holderName") String holderName){
         bookRepository.setHolderName(bookId, holderName);
         bookRepository.takeBook(bookId);
-        return ("redirect:/books/takebook/" + bookId);
+        return "redirect:/books/allbooks";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/returnbook")
+    public String returnBook(@RequestParam("bookId") int bookId){
+        bookRepository.setHolderName(bookId, "");
+        bookRepository.returnBook(bookId);
+        return "redirect:/books/allbooks";
     }
 
 }

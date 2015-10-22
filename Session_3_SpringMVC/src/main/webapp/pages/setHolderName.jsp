@@ -3,10 +3,11 @@
 <html>
 <body>
 
-<form action="addholderaction" method="post">
+<form action="setholdernameaction" method="post">
   <fieldset>
     <legend>Please enter holder name:</legend>
     <input type="text" name="holderName">
+    <input type="hidden" name="bookId" value="${bookId}">
     <br>
     <br>
 
