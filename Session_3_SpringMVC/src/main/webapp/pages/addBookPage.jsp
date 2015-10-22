@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <body>
 
@@ -11,6 +12,7 @@
 
         Author:<br>
         <input type="text" name="author">
+        <br>
         <br>
 
         <input type="submit" value="Add Book">
