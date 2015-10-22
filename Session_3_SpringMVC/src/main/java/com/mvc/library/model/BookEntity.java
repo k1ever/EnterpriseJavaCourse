@@ -5,12 +5,17 @@ package com.mvc.library.model;
  */
 public class BookEntity {
 
+    static int bookId = 0;
+
+    private int id;
     private String title;
     private String author;
     private String holder;
     private boolean isTaken;
 
     public BookEntity(){
+        bookId++;
+        this.id = bookId;
         this.title = "";
         this.author = "";
         this.holder = "";
@@ -21,6 +26,14 @@ public class BookEntity {
         this();
         this.title = title;
         this.author = author;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isTaken() {
