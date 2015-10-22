@@ -35,15 +35,29 @@ public class UserController {
         return "redirect:/books/allbooks";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/takebook/{id}")
-    public String takeBook(@PathVariable("id") int id){
-        bookRepository.takeBook(id);
-        return "redirect:/books/allbooks";
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "/takebook/{id}")
+//    public String takeBook(@PathVariable("id") int id){
+//        bookRepository.takeBook(id);
+//        return "redirect:/books/allbooks";
+//    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/returnbook/{id}")
     public String returnBook(@PathVariable("id") int id){
         bookRepository.returnBook(id);
         return "redirect:/books/allbooks";
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/setholdernameform/{id}")
+    public String goToAddHolderName(Model model, @PathVariable("id") int id){
+        model.addAttribute("bookId", id);
+        return "redirect:/books/setholdername";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/setholdername")
+    public String setHolderNameAndTakeBook(@RequestParam("bookId") int bookId, @RequestParam("holderName") String holderName){
+        bookRepository.setHolderName(bookId, holderName);
+        bookRepository.takeBook(bookId);
+        return ("redirect:/books/takebook/" + bookId);
+    }
+
 }

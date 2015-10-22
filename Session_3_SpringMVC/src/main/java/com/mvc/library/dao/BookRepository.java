@@ -44,4 +44,8 @@ public class BookRepository {
         books.get(id-1).setIsTaken(false);
     }
 
+    public void setHolderName(int id, String holderName){
+        books.get(id-1).setHolder(holderName);
+    }
+
 }
