@@ -1,18 +1,12 @@
 package com.mvc.library;
 
 import com.mvc.library.dao.BooksRepository;
-import com.mvc.library.model.BooksEntity;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/books")
@@ -55,6 +49,5 @@ public class UserController {
         booksRepository.returnBook(bookId);
         return "redirect:/books/allbooks";
     }
-
 
 }
