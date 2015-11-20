@@ -3,20 +3,20 @@
 
 <html>
 <body>
+<fieldset>
+    <legend>Please enter holder name:</legend>
+<form:form modelAttribute="book" action="setholdername" method="post">
 
-<form action="setholdername" method="post">
-    <fieldset>
-        <legend>Please enter holder name:</legend>
-        <input type="text" name="holderName">
-        <input type="hidden" name="bookId" value="${bookId}">
+    <form:select path="user.id" items="${usersMap}"/>
         <br>
         <br>
 
         <input type="submit" value="OK">
         <input type="button" onclick="location.href='/library/books/allbooks';" value="Cancel" />
-    </fieldset>
-</form>
+
+</form:form>
 
 
+</fieldset>
 </body>
 </html>

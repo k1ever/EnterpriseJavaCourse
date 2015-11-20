@@ -40,7 +40,7 @@
         <tr>
             <td>${book.title}</td>
             <td>${book.author}</td>
-            <td>${book.holder}</td>
+            <td>${book.user.firstName} ${book.user.lastName}</td>
             <c:choose>
                 <c:when test="${book.status=='taken'}">
                     <td align="center">(taken)</td>

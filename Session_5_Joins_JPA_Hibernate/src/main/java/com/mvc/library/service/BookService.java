@@ -1,6 +1,7 @@
 package com.mvc.library.service;
 
 import com.mvc.library.model.BookEntity;
+import com.mvc.library.model.UserEntity;
 import com.mvc.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,18 +21,26 @@ public class BookService {
     public List<BookEntity> getBooksList(){
         return bookRepository.getBooksList();
     }
+    public BookEntity getBookById(int id){
+        return bookRepository.getBookById(id);
+    }
+
     @Transactional
     public void addBook(BookEntity book) {
         bookRepository.addBook(book);
     }
 
     @Transactional
-    public void takeBook(int id, String holder){
-        bookRepository.takeBook(id, holder);
+    public void takeBook(int id, UserEntity user){
+        bookRepository.takeBook(id, user);
     }
 
     @Transactional
     public void returnBook(int id) {
         bookRepository.returnBook(id);
+    }
+
+    public void updateBook(BookEntity book) {
+        bookRepository.updateBook(book);
     }
 }

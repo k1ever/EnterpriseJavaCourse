@@ -1,6 +1,7 @@
 package com.mvc.library.repository;
 
 import com.mvc.library.model.BookEntity;
+import com.mvc.library.model.UserEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,19 +31,28 @@ public class BookRepository {
     }
 
     @Transactional
-    public void takeBook(int id, String holder){
+    public void takeBook(int id, UserEntity user){
         BookEntity book = entityManager.find(BookEntity.class, id);
         book.setStatus("taken");
-        book.setHolder(holder);
+        book.setUser(user);
     }
 
     @Transactional
     public void returnBook(int id){
         BookEntity book = entityManager.find(BookEntity.class, id);
         book.setStatus("");
-        book.setHolder("");
+//        book.setHolder("");
     }
 
+    public BookEntity getBookById(int id){
+        BookEntity book = entityManager.find(BookEntity.class, id);
+        return book;
+    }
+
+    @Transactional
+    public void updateBook(BookEntity book) {
+        entityManager.merge(book);
+    }
 }
 
 
