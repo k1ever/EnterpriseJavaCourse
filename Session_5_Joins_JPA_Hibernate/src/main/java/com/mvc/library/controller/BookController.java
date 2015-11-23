@@ -46,27 +46,29 @@ public class BookController {
     }
 
     @RequestMapping(value = "/setholderform", method = RequestMethod.POST)
-    public String setHolderForm(Model model, @RequestParam("bookId") int bookId){
+    public String setHolderForm(Model model, @RequestParam("bookId") int bookId) {
 
-        BookEntity book = bookService.getBookById(bookId);
+        BookEntity bookEntity = bookService.getBookById(bookId);
+        model.addAttribute("book", bookEntity);
+
         Map<String, String> usersMap = userService.getUsersMap();
         model.addAttribute("usersMap", usersMap);
-        model.addAttribute("book", book);
 
         return "setHolderForm";
     }
 
     @RequestMapping(value = "/setholdername", method = RequestMethod.POST)
-    public String takeBook(@ModelAttribute BookEntity book){
-        bookService.updateBook(book);
-//        UserEntity user = userService.getUserById(Integer.getInteger(userId));
-//        bookService.takeBook(bookId, user);
+    public String takeBook(@ModelAttribute("book") BookEntity book){
+        bookService.setTaken(book);
+
         return "redirect:/books/allbooks";
     }
 
     @RequestMapping(value = "/returnbook", method = RequestMethod.POST)
     public String returnBook(@RequestParam("bookId") int bookId){
-        bookService.returnBook(bookId);
+        BookEntity book = bookService.getBookById(bookId);
+        bookService.setFree(book);
+
         return "redirect:/books/allbooks";
     }
 

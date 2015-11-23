@@ -43,4 +43,12 @@ public class BookService {
     public void updateBook(BookEntity book) {
         bookRepository.updateBook(book);
     }
+
+    public void setTaken(BookEntity book) {
+        bookRepository.setTaken(book);
+    }
+
+    public void setFree(BookEntity book) {
+        bookRepository.setFree(book);
+    }
 }

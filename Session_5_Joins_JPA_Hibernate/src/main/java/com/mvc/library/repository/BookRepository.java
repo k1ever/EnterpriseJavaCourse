@@ -16,6 +16,9 @@ import java.util.List;
 @Repository
 public class BookRepository {
 
+    private static final String BOOK_STATUS_TAKEN = "taken";
+    private static final String BOOK_STATUS_FREE = "";
+
     @PersistenceContext(name = "NewPersistenceUnit")
     private EntityManager entityManager;
 
@@ -51,6 +54,19 @@ public class BookRepository {
 
     @Transactional
     public void updateBook(BookEntity book) {
+        entityManager.merge(book);
+    }
+
+    @Transactional
+    public void setTaken(BookEntity book) {
+        book.setStatus(BOOK_STATUS_TAKEN);
+        entityManager.merge(book);
+    }
+
+    @Transactional
+    public void setFree(BookEntity book) {
+        book.setStatus(BOOK_STATUS_FREE);
+        book.setUser(null);
         entityManager.merge(book);
     }
 }
