@@ -42,6 +42,7 @@ public class BookRepository {
     public void setTaken(BookEntity book) {
         book.setStatus(BOOK_STATUS_TAKEN);
         entityManager.merge(book);
+        entityManager.flush();
     }
 
     @Transactional
@@ -49,6 +50,7 @@ public class BookRepository {
         book.setStatus(BOOK_STATUS_FREE);
         book.setUser(null);
         entityManager.merge(book);
+        entityManager.flush();
     }
 }
 

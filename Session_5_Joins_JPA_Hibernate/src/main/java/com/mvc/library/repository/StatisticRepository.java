@@ -1,5 +1,6 @@
 package com.mvc.library.repository;
 
+import com.mvc.library.model.BookEntity;
 import com.mvc.library.model.StatisticEntity;
 import com.mvc.library.model.UserEntity;
 import org.springframework.stereotype.Repository;
@@ -34,4 +35,20 @@ public class StatisticRepository {
     public void updateStatistic(StatisticEntity statistic){
         entityManager.merge(statistic);
     }
+
+    public StatisticEntity getStatisticRecordByIds(BookEntity book){
+        Query query = entityManager.createQuery("from StatisticEntity where s.book_id = :bookId and s.user_id = :userId" +
+                " and s.returned_date = :returnDate");
+        query.setParameter("bookId", book.getId());
+        query.setParameter("userId", book.getUser().getId());
+        query.setParameter("returnDate", null);
+
+        List<StatisticEntity> statisticEntities = query.getResultList();
+        if (statisticEntities.isEmpty()) {
+            return null;
+        }
+
+        return statisticEntities.get(0);
+    }
+
 }

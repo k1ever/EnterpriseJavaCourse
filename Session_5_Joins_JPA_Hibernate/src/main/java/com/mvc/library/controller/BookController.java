@@ -66,13 +66,7 @@ public class BookController {
     @RequestMapping(value = "/setholdername", method = RequestMethod.POST)
     public String takeBook(@ModelAttribute("book") BookEntity book){
         bookService.setTaken(book);
-
-        StatisticEntity statisticEntity = new StatisticEntity();
-        statisticEntity.setUser(book.getUser());
-        statisticEntity.setBook(book);
-        statisticEntity.setTakeDate(new Date());
-
-        statisticService.addStatistic(statisticEntity);
+        statisticService.setTaken(book);
 
         return "redirect:/books/allbooks";
     }
@@ -81,6 +75,7 @@ public class BookController {
     public String returnBook(@RequestParam("bookId") int bookId){
         BookEntity book = bookService.getBookById(bookId);
         bookService.setFree(book);
+        statisticService.setReturned(book);
 
         return "redirect:/books/allbooks";
     }
