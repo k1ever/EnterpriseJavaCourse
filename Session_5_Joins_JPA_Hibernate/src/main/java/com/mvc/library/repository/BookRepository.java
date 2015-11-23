@@ -33,28 +33,9 @@ public class BookRepository {
         entityManager.flush();
     }
 
-    @Transactional
-    public void takeBook(int id, UserEntity user){
-        BookEntity book = entityManager.find(BookEntity.class, id);
-        book.setStatus("taken");
-        book.setUser(user);
-    }
-
-    @Transactional
-    public void returnBook(int id){
-        BookEntity book = entityManager.find(BookEntity.class, id);
-        book.setStatus("");
-//        book.setHolder("");
-    }
-
     public BookEntity getBookById(int id){
         BookEntity book = entityManager.find(BookEntity.class, id);
         return book;
-    }
-
-    @Transactional
-    public void updateBook(BookEntity book) {
-        entityManager.merge(book);
     }
 
     @Transactional

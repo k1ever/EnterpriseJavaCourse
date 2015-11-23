@@ -31,23 +31,11 @@ public class BookService {
     }
 
     @Transactional
-    public void takeBook(int id, UserEntity user){
-        bookRepository.takeBook(id, user);
-    }
-
-    @Transactional
-    public void returnBook(int id) {
-        bookRepository.returnBook(id);
-    }
-
-    public void updateBook(BookEntity book) {
-        bookRepository.updateBook(book);
-    }
-
     public void setTaken(BookEntity book) {
         bookRepository.setTaken(book);
     }
 
+    @Transactional
     public void setFree(BookEntity book) {
         bookRepository.setFree(book);
     }
