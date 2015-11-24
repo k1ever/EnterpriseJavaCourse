@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,23 +33,18 @@ public class StatisticRepository {
     }
 
     @Transactional
-    public void updateStatistic(StatisticEntity statistic){
-        entityManager.merge(statistic);
-    }
+    public void setReturnDate(BookEntity book){
 
-    public StatisticEntity getStatisticRecordByIds(BookEntity book){
-        Query query = entityManager.createQuery("from StatisticEntity where s.book_id = :bookId and s.user_id = :userId" +
-                " and s.returned_date = :returnDate");
-        query.setParameter("bookId", book.getId());
-        query.setParameter("userId", book.getUser().getId());
-        query.setParameter("returnDate", null);
+        Query query = entityManager.createQuery("update StatisticEntity " +
+                "set returnDate = :date " +
+                "where book = :bookId and user = :userId and returnDate is null");
 
-        List<StatisticEntity> statisticEntities = query.getResultList();
-        if (statisticEntities.isEmpty()) {
-            return null;
-        }
+        query.setParameter("date", new Date());
+        query.setParameter("bookId", book);
+        query.setParameter("userId", book.getUser());
 
-        return statisticEntities.get(0);
+        query.executeUpdate();
+        
     }
 
 }

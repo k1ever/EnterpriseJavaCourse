@@ -74,8 +74,8 @@ public class BookController {
     @RequestMapping(value = "/returnbook", method = RequestMethod.POST)
     public String returnBook(@RequestParam("bookId") int bookId){
         BookEntity book = bookService.getBookById(bookId);
+        statisticService.setReturnDate(book);
         bookService.setFree(book);
-        statisticService.setReturned(book);
 
         return "redirect:/books/allbooks";
     }

@@ -31,11 +31,6 @@ public class StatisticService {
     }
 
     @Transactional
-    public void updateStatistic(StatisticEntity statistic){
-        statisticRepository.updateStatistic(statistic);
-    }
-
-    @Transactional
     public void setTaken(BookEntity book) {
 
         StatisticEntity statistic = new StatisticEntity();
@@ -48,8 +43,7 @@ public class StatisticService {
     }
 
     @Transactional
-    public void setReturned(BookEntity book) {
-        StatisticEntity statistic = statisticRepository.getStatisticRecordByIds(book);
-        statisticRepository.updateStatistic(statistic);
+    public void setReturnDate(BookEntity book) {
+        statisticRepository.setReturnDate(book);
     }
 }
