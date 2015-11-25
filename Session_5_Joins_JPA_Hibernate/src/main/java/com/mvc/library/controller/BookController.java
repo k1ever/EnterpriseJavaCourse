@@ -1,9 +1,6 @@
 package com.mvc.library.controller;
 
 import com.mvc.library.model.BookEntity;
-import com.mvc.library.model.StatisticEntity;
-import com.mvc.library.model.UserEntity;
-import com.mvc.library.repository.BookRepository;
 import com.mvc.library.service.BookService;
 import com.mvc.library.service.StatisticService;
 import com.mvc.library.service.UserService;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -35,6 +31,7 @@ public class BookController {
     @RequestMapping(value = "/allbooks", method = RequestMethod.GET)
     public String getAllBooks(Model model) {
         model.addAttribute("books", bookService.getBooksList());
+        model.addAttribute("popularBook", statisticService.getMostPopularBook());
         return "allBooks";
     }
 

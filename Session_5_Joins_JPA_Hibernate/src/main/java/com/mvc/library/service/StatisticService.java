@@ -24,7 +24,7 @@ public class StatisticService {
     @Autowired
     private StatisticRepository statisticRepository;
 
-    public List<UserEntity> getStatistics(){
+    public List<StatisticEntity> getStatistics(){
         return statisticRepository.getStatistics();
     }
 
@@ -50,11 +50,19 @@ public class StatisticService {
         statisticRepository.setReturnDate(book);
     }
 
+    @Transactional
     public List<UserReport> getUserReport(int userId){
         return statisticRepository.getUserReport(userId);
     }
 
+    @Transactional
     public List<BookReport> getBookReport(int bookId){
         return statisticRepository.getBookReport(bookId);
     }
+
+    @Transactional
+    public BookEntity getMostPopularBook(){
+        return statisticRepository.getMostPopularBook();
+    }
+
 }

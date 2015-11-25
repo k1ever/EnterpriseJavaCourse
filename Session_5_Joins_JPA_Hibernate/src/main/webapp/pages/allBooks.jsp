@@ -68,7 +68,11 @@
 
 <br>
 
-<input type="button" onclick="location.href='/library/books/add';" value="Add book" />
+<input type="button" onclick="location.href='/library/books/add'" value="Add book" />
+<c:if test="${not empty popularBook}">
+    <input type="button" onclick="location.href='/library/reports/bybook/${popularBook.id}'" value="Most popular book: ${popularBook.title}" />
+</c:if>
+
 
 </body>
 </html>

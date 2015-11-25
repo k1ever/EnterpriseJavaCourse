@@ -23,7 +23,7 @@ public class StatisticRepository {
     @PersistenceContext
     EntityManager entityManager;
 
-    public List<UserEntity> getStatistics(){
+    public List<StatisticEntity> getStatistics(){
         Query query = entityManager.createQuery("from StatisticEntity");
         return query.getResultList();
     }
@@ -60,5 +60,15 @@ public class StatisticRepository {
         query.setParameter("bookId", bookId);
         return query.getResultList();
     }
+
+    public BookEntity getMostPopularBook(){
+        Query query = entityManager.createNamedQuery(StatisticEntity.MOST_POPULAR_BOOK);
+        query.setMaxResults(1);
+        if (query.getResultList().isEmpty()){
+            return null;
+        }
+        return (BookEntity) query.getSingleResult();
+    }
+
 
 }

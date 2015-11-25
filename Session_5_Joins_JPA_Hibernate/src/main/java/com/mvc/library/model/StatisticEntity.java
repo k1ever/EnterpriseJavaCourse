@@ -1,7 +1,5 @@
 package com.mvc.library.model;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -18,12 +16,17 @@ import java.util.Date;
         @NamedQuery(name = StatisticEntity.BOOK_REPORT, query =
                 "select new com.mvc.library.report.BookReport(u.firstName, u.lastName, s.takeDate, s.returnDate) " +
                         "from StatisticEntity s, UserEntity u " +
-                        "where s.user.id = u.id and s.book.id = :bookId")
+                        "where s.user.id = u.id and s.book.id = :bookId"),
+        @NamedQuery(name = StatisticEntity.MOST_POPULAR_BOOK, query =
+                "select s.book from StatisticEntity s " +
+                        "group by s.book.id " +
+                        "order by count(s) desc")
 })
 public class StatisticEntity {
 
     public static final String USER_REPORT = "user_report";
     public static final String BOOK_REPORT = "book_report";
+    public static final String MOST_POPULAR_BOOK = "most_popular_book";
 
     @Id
     @GeneratedValue
