@@ -38,9 +38,9 @@
 
     <c:forEach var="book" items="${books}" >
         <tr>
-            <td><a href="/library/report/bybook/${book.id}">${book.title}</a></td>
+            <td><a href="/library/reports/bybook/${book.id}">${book.title}</a></td>
             <td>${book.author}</td>
-            <td><a href="/library/report/byuser/${book.user.id}">${book.user.firstName} ${book.user.lastName}</a></td>
+            <td><a href="/library/reports/byuser/${book.user.id}">${book.user.firstName} ${book.user.lastName}</a></td>
             <c:choose>
                 <c:when test="${book.status=='taken'}">
                     <td align="center">(taken)</td>

@@ -3,12 +3,15 @@ package com.mvc.library.service;
 import com.mvc.library.model.BookEntity;
 import com.mvc.library.model.StatisticEntity;
 import com.mvc.library.model.UserEntity;
+import com.mvc.library.report.BookReport;
+import com.mvc.library.report.UserReport;
 import com.mvc.library.repository.StatisticRepository;
 import com.mvc.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 
@@ -45,5 +48,13 @@ public class StatisticService {
     @Transactional
     public void setReturnDate(BookEntity book) {
         statisticRepository.setReturnDate(book);
+    }
+
+    public List<UserReport> getUserReport(int userId){
+        return statisticRepository.getUserReport(userId);
+    }
+
+    public List<BookReport> getBookReport(int bookId){
+        return statisticRepository.getBookReport(bookId);
     }
 }

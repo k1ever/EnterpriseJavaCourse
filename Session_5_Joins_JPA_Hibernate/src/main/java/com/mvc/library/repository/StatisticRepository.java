@@ -3,6 +3,8 @@ package com.mvc.library.repository;
 import com.mvc.library.model.BookEntity;
 import com.mvc.library.model.StatisticEntity;
 import com.mvc.library.model.UserEntity;
+import com.mvc.library.report.BookReport;
+import com.mvc.library.report.UserReport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +47,18 @@ public class StatisticRepository {
 
         query.executeUpdate();
         
+    }
+
+    public List<UserReport> getUserReport(int userId){
+        Query query = entityManager.createNamedQuery(StatisticEntity.USER_REPORT);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+
+    public List<BookReport> getBookReport(int bookId){
+        Query query = entityManager.createNamedQuery(StatisticEntity.BOOK_REPORT);
+        query.setParameter("bookId", bookId);
+        return query.getResultList();
     }
 
 }

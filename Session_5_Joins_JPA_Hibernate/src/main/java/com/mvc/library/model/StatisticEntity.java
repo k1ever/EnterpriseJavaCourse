@@ -10,7 +10,20 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "statistics")
+@NamedQueries({
+        @NamedQuery(name = StatisticEntity.USER_REPORT, query =
+                "select new com.mvc.library.report.UserReport(b.title, s.takeDate, s.returnDate) " +
+                        "from StatisticEntity s, BookEntity b " +
+                        "where s.book.id = b.id and s.user.id = :userId"),
+        @NamedQuery(name = StatisticEntity.BOOK_REPORT, query =
+                "select new com.mvc.library.report.BookReport(u.firstName, u.lastName, s.takeDate, s.returnDate) " +
+                        "from StatisticEntity s, UserEntity u " +
+                        "where s.user.id = u.id and s.book.id = :bookId")
+})
 public class StatisticEntity {
+
+    public static final String USER_REPORT = "user_report";
+    public static final String BOOK_REPORT = "book_report";
 
     @Id
     @GeneratedValue
