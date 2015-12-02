@@ -19,10 +19,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserEntity> getUsers(){
-        return userRepository.getUsers();
-    }
-
     public Map<String, String> getUsersMap() {
         List<UserEntity> users = userRepository.getUsers();
 
@@ -34,10 +30,6 @@ public class UserService {
         }
 
         return usersMap;
-    }
-
-    public UserEntity getUserById(int id){
-        return userRepository.getUserById(id);
     }
 
 }

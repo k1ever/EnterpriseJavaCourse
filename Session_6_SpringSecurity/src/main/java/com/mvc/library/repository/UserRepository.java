@@ -23,8 +23,4 @@ public class UserRepository {
         return query.getResultList();
     }
 
-    public UserEntity getUserById(int id){
-        UserEntity user = entityManager.find(UserEntity.class, id);
-        return user;
-    }
 }
