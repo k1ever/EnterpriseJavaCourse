@@ -21,6 +21,13 @@ public class UserEntity {
 
     private int age;
 
+    @Column(unique = true)
+    private String login;
+
+    private String password;
+
+    private boolean enabled;
+
     public int getId() {
         return id;
     }
@@ -51,5 +58,29 @@ public class UserEntity {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
