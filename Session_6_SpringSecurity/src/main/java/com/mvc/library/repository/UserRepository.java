@@ -1,5 +1,6 @@
 package com.mvc.library.repository;
 
+import com.mvc.library.model.BookEntity;
 import com.mvc.library.model.UserEntity;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +24,10 @@ public class UserRepository {
         return query.getResultList();
     }
 
+    public UserEntity getUserByLogin(String login) {
+        Query query = entityManager.createQuery("from UserEntity where login = :loginParam");
+        query.setParameter("loginParam", login);
+        UserEntity user = (UserEntity) query.getSingleResult();
+        return user;
+    }
 }

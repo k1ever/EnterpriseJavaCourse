@@ -63,7 +63,7 @@
                 <c:otherwise>
                     <td></td>
                     <td align="center">
-                        <form action="setholderform" method="post">
+                        <form action="takebook" method="post">
                             <input type="hidden" name="bookId" value="${book.id}">
                             <input type="submit" value="Take">
                         </form>

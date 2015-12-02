@@ -18,6 +18,9 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private UserService userService;
+
     public List<BookEntity> getBooksList(){
         return bookRepository.getBooksList();
     }
@@ -32,6 +35,7 @@ public class BookService {
 
     @Transactional
     public void setTaken(BookEntity book) {
+        book.setUser(userService.getCurrentUser());
         bookRepository.setTaken(book);
     }
 

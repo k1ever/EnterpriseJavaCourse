@@ -48,20 +48,10 @@ public class BookController {
         return "redirect:/books/allbooks";
     }
 
-    @RequestMapping(value = "/setholderform", method = RequestMethod.POST)
-    public String setHolderForm(Model model, @RequestParam("bookId") int bookId) {
+    @RequestMapping(value = "/takebook", method = RequestMethod.POST)
+    public String takeBook(Model model, @RequestParam("bookId") int bookId) {
 
-        BookEntity bookEntity = bookService.getBookById(bookId);
-        model.addAttribute("book", bookEntity);
-
-        Map<String, String> usersMap = userService.getUsersMap();
-        model.addAttribute("usersMap", usersMap);
-
-        return "setHolderForm";
-    }
-
-    @RequestMapping(value = "/setholdername", method = RequestMethod.POST)
-    public String takeBook(@ModelAttribute("book") BookEntity book){
+        BookEntity book = bookService.getBookById(bookId);
         bookService.setTaken(book);
         statisticService.setTaken(book);
 

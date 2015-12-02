@@ -12,11 +12,13 @@ import java.util.Date;
         @NamedQuery(name = StatisticEntity.USER_REPORT, query =
                 "select new com.mvc.library.report.UserReport(b.title, s.takeDate, s.returnDate) " +
                         "from StatisticEntity s, BookEntity b " +
-                        "where s.book.id = b.id and s.user.id = :userId"),
+                        "where s.book.id = b.id and s.user.id = :userId " +
+                        "order by s.takeDate desc"),
         @NamedQuery(name = StatisticEntity.BOOK_REPORT, query =
                 "select new com.mvc.library.report.BookReport(u.firstName, u.lastName, s.takeDate, s.returnDate) " +
                         "from StatisticEntity s, UserEntity u " +
-                        "where s.user.id = u.id and s.book.id = :bookId"),
+                        "where s.user.id = u.id and s.book.id = :bookId " +
+                        "order by s.takeDate desc"),
         @NamedQuery(name = StatisticEntity.MOST_POPULAR_BOOK, query =
                 "select s.book from StatisticEntity s " +
                         "group by s.book.id " +
