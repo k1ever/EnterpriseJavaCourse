@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -27,6 +28,14 @@
     </style>
 </head>
 <body>
+
+<div id="header" align="right">
+    Current user: <b> <sec:authentication property="name"/></b>
+    <input type="button" onclick="location.href='/library/logout'" value="Logout" />
+</div>
+
+<br>
+
 <table>
     <tr>
         <th> Book title </th>
@@ -67,8 +76,10 @@
 </table>
 
 <br>
+<sec:authorize ifAnyGranted="ROLE_ADMIN">
+    <input type="button" onclick="location.href='/library/books/add'" value="Add book" />
+</sec:authorize>
 
-<input type="button" onclick="location.href='/library/books/add'" value="Add book" />
 <c:if test="${not empty popularBook}">
     <input type="button" onclick="location.href='/library/reports/bybook/${popularBook.id}'" value="Most popular book: ${popularBook.title}" />
 </c:if>

@@ -10,8 +10,13 @@
     <beans:import resource="application-spring.xml"/>
 
     <http auto-config="true">
+        <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/loginFailed" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/**" access="ROLE_USER"/>
+        <form-login login-page="/login" authentication-failure-url="/loginFailed" default-target-url="/books/allbooks"/>
+        <logout logout-success-url="/login" logout-url="/logout"/>
     </http>
+
 
     <authentication-manager>
         <authentication-provider>
