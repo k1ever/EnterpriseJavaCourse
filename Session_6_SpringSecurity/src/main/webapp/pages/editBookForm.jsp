@@ -40,18 +40,13 @@
 
     </table>
 
-    <br>
-    <br>
-
     <input type="submit" value="Save">
+  </form:form>
     <form action="deletebook" method="post">
       <input type="hidden" name="bookId" value="${book.id}">
       <input type="submit" value="Delete">
     </form>
     <input type="button" onclick="location.href='/library/books/allbooks';" value="Cancel" />
-
-  </form:form>
-
 
 </fieldset>
 </body>

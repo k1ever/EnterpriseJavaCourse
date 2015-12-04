@@ -53,7 +53,6 @@ public class BookController {
 
         BookEntity book = bookService.getBookById(bookId);
         bookService.setTaken(book);
-        statisticService.setTaken(book);
 
         return "redirect:/books/allbooks";
     }
@@ -61,7 +60,6 @@ public class BookController {
     @RequestMapping(value = "/returnbook", method = RequestMethod.POST)
     public String returnBook(@RequestParam("bookId") int bookId){
         BookEntity book = bookService.getBookById(bookId);
-        statisticService.setReturnDate(book);
         bookService.setFree(book);
 
         return "redirect:/books/allbooks";
@@ -85,4 +83,10 @@ public class BookController {
         return "redirect:/books/allbooks";
     }
 
+    @RequestMapping(value = "/deletebook", method = RequestMethod.POST)
+    public String deleteBook(Model model, @RequestParam("bookId") int bookId){
+        bookService.deleteBook(bookId);
+
+        return "redirect:/books/allbooks";
+    }
 }

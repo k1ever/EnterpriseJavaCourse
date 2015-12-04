@@ -21,6 +21,9 @@ public class BookService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    StatisticService statisticService;
+
     public List<BookEntity> getBooksList(){
         return bookRepository.getBooksList();
     }
@@ -37,15 +40,28 @@ public class BookService {
     public void setTaken(BookEntity book) {
         book.setUser(userService.getCurrentUser());
         bookRepository.setTaken(book);
+        statisticService.setTaken(book);
     }
 
     @Transactional
     public void setFree(BookEntity book) {
+        statisticService.setReturnDate(book);
         bookRepository.setFree(book);
     }
 
     @Transactional
     public void updateBook(BookEntity book) {
+        if (book.getStatus().equals("taken")){
+            statisticService.setTaken(book);
+        } else {
+            statisticService.setReturnDate(book);
+        }
+
         bookRepository.updateBook(book);
+    }
+
+    @Transactional
+    public void deleteBook(int bookId){
+        bookRepository.deleteBook(bookId);
     }
 }

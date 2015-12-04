@@ -58,6 +58,14 @@ public class BookRepository {
         entityManager.merge(book);
         entityManager.flush();
     }
+
+    @Transactional
+    public void deleteBook(int id){
+        BookEntity book = entityManager.find(BookEntity.class, id);
+        entityManager.remove(book);
+        entityManager.flush();
+    }
+
 }
 
 
