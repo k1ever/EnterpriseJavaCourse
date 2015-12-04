@@ -43,4 +43,9 @@ public class BookService {
     public void setFree(BookEntity book) {
         bookRepository.setFree(book);
     }
+
+    @Transactional
+    public void updateBook(BookEntity book) {
+        bookRepository.updateBook(book);
+    }
 }

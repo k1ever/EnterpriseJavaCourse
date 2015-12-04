@@ -52,6 +52,12 @@ public class BookRepository {
         entityManager.merge(book);
         entityManager.flush();
     }
+
+    @Transactional
+    public void updateBook(BookEntity book) {
+        entityManager.merge(book);
+        entityManager.flush();
+    }
 }
 
 

@@ -67,4 +67,22 @@ public class BookController {
         return "redirect:/books/allbooks";
     }
 
+    @RequestMapping(value = "/editbook", method = RequestMethod.POST)
+    public String editBook(Model model, @RequestParam("bookId") int bookId){
+        BookEntity book = bookService.getBookById(bookId);
+        model.addAttribute("book", book);
+
+        Map<String, String> usersMap = userService.getUsersMap();
+        model.addAttribute("usersMap", usersMap);
+
+        return "editBookForm";
+    }
+
+    @RequestMapping(value = "/savebook", method = RequestMethod.POST)
+    public String saveBook(@ModelAttribute("book") BookEntity book){
+        bookService.updateBook(book);
+
+        return "redirect:/books/allbooks";
+    }
+
 }

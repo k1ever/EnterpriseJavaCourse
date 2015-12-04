@@ -43,6 +43,9 @@
         <th> Holder </th>
         <th> Status </th>
         <th> Action </th>
+        <sec:authorize ifAnyGranted="ROLE_ADMIN">
+            <th> Edit </th>
+        </sec:authorize>
     </tr>
 
     <c:forEach var="book" items="${books}" >
@@ -70,6 +73,14 @@
                     </td>
                 </c:otherwise>
             </c:choose>
+            <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                <td align="center">
+                    <form action="editbook" method="post">
+                        <input type="hidden" name="bookId" value="${book.id}">
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
+            </sec:authorize>
         </tr>
     </c:forEach>
 
