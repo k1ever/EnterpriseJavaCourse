@@ -30,7 +30,9 @@
 <body>
 
 <div id="header" align="right">
-    Current user: <b> <sec:authentication property="name"/></b>
+    <sec:authentication var="uname" property="name"/>
+    <sec:authorize var="isAdmin" ifAnyGranted="ROLE_ADMIN"/>
+    Current user: <b>${uname}</b>
     <input type="button" onclick="location.href='/library/logout'" value="Logout" />
 </div>
 
@@ -54,21 +56,28 @@
             <td>${book.author}</td>
             <td><a href="/library/reports/byuser/${book.user.id}">${book.user.firstName} ${book.user.lastName}</a></td>
             <c:choose>
-                <c:when test="${book.status=='taken'}">
-                    <td align="center">(taken)</td>
-                    <td align="center">
-                        <form action="returnbook" method="post">
-                        <input type="hidden" name="bookId" value="${book.id}">
-                        <input type="submit" value="Return">
-                        </form>
-                    </td>
-                </c:when>
-                <c:otherwise>
+                <c:when test="${book.status!='taken'}">
                     <td></td>
                     <td align="center">
                         <form action="takebook" method="post">
                             <input type="hidden" name="bookId" value="${book.id}">
                             <input type="submit" value="Take">
+                        </form>
+                    </td>
+                </c:when>
+                <c:otherwise>
+                    <td align="center">(taken)</td>
+                    <td align="center">
+                        <form action="returnbook" method="post">
+                            <input type="hidden" name="bookId" value="${book.id}">
+                            <c:choose>
+                                <c:when test="${isAdmin || (uname == book.user.login)}">
+                                    <input type="submit" value="Return">
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="submit" value="Return" disabled>
+                                </c:otherwise>
+                            </c:choose>
                         </form>
                     </td>
                 </c:otherwise>
@@ -92,9 +101,11 @@
 </sec:authorize>
 
 <c:if test="${not empty popularBook}">
-    <input type="button" onclick="location.href='/library/reports/bybook/${popularBook.id}'" value="Most popular book: ${popularBook.title}" />
+    <input type="button" onclick="location.href='/library/reports/bybook/${popularBook.id}'"
+           value="Most popular book: ${popularBook.title}" />
 </c:if>
 
 
 </body>
 </html>
+

@@ -33,7 +33,7 @@
       <td><form:select id="holder" name="holder"
                        path="user.id" value="${book.user.id}"
                        items="${usersMap}"
-                       disabled="${book.status == ''}">
+                       disabled="${book.status != 'taken'}">
       </form:select>
       </td>
     </tr>

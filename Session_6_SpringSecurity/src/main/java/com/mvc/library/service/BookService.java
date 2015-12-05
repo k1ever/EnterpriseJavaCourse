@@ -50,14 +50,24 @@ public class BookService {
     }
 
     @Transactional
-    public void updateBook(BookEntity book) {
-        if (book.getStatus().equals("taken")){
-            statisticService.setTaken(book);
+    public void updateBook(BookEntity newBook) {
+        BookEntity oldBook = getBookById(newBook.getId());
+        boolean isStatusChanged = !newBook.getStatus().equals(oldBook.getStatus());
+
+        if (isStatusChanged){
+            if (newBook.getStatus().equals("taken")){
+                statisticService.setTaken(newBook);
+            } else {
+                statisticService.setReturnDate(oldBook);
+            }
         } else {
-            statisticService.setReturnDate(book);
+            if (newBook.getStatus().equals("taken") && newBook.getUser().getId() != oldBook.getUser().getId()){
+                statisticService.setReturnDate(oldBook);
+                statisticService.setTaken(newBook);
+            }
         }
 
-        bookRepository.updateBook(book);
+        bookRepository.updateBook(newBook);
     }
 
     @Transactional
