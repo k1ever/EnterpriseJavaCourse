@@ -49,4 +49,11 @@ public class BookReport {
     public void setReturnedDate(Date returnedDate) {
         this.returnedDate = returnedDate;
     }
+
+    @Override
+    public String toString(){
+        return getUserFirstName() + " " + getUserLastName() + "   " +
+                getTakenDate().toString() + "   " + getReturnedDate().toString();
+    }
+
 }
